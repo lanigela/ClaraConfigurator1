@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Exocortex, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config>
+    <modules>
+        <Exocortex_Threekist>
+            <version>0.1</version>
+        </Exocortex_Threekist>
+    </modules>
+    <global>
+        <events>
+            <checkout_cart_product_add_after>
+                <observers>
+                    <exocortex_threekit_model_observer>
+                        <type>singleton</type>
+                        <class>threekit/observer</class>
+                        <method>addAdditionalOptionsToQuote</method>
+                    </exocortex_threekit_model_observer>
+                </observers>
+            </checkout_cart_product_add_after>
+            <sales_model_service_quote_submit_before>
+                <observers>
+                    <exocortex_threekit_model_observer>
+                        <type>singleton</type>
+                        <class>threekit/observer</class>
+                        <method>addAdditionalOptionsToSale</method>
+                    </exocortex_threekit_model_observer>
+                </observers>
+            </sales_model_service_quote_submit_before>
+            <controller_action_layout_load_before>
+                <observers>
+                    <exocortex_threekit_model_observer>
+                        <type>singleton</type>
+                        <class>threekit/observer</class>
+                        <method>replaceBundleLayout</method>
+                    </exocortex_threekit_model_observer>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
+    </global>
+</config>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <modules>
+        <!-- declare CompanyName_NewModule module -->
+        <Exocortex_Threekit>
+            <!-- this is an active module -->
+            <active>true</active>
+            <!-- this module will be located in app/code/local code pool -->
+            <codePool>community</codePool>
+            <!-- specify dependencies for correct module loading order -->
+            <depends>
+                <Mage_Bundle />
+            </depends>
+        </Exocortex_Threekit>
+    </modules>
+</config>
