@@ -24,8 +24,15 @@ class Exocortex_Threekit_Model_Observer
 
     }
 
-    public function replaceBundleLayout()
+    public function replaceBundleLayout($observer)
     {
-
+        if ($observer->getEvent()->getAction()->getFullActionName()=='catalog_product_view'){
+            $product = Mage::registry('current_product');
+            if ($product) {
+                $attr = $product->getData('threekit');
+                Mage::log($attr, Zend_Log::DEBUG, "threekit.log");
+            }
+        }
+        return ;
     }
 }
