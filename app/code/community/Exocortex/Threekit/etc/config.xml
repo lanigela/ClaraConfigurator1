@@ -7,9 +7,9 @@
 -->
 <config>
     <modules>
-        <Exocortex_Threekist>
+        <Exocortex_Threekit>
             <version>0.1</version>
-        </Exocortex_Threekist>
+        </Exocortex_Threekit>
     </modules>
     <global>
         <events>
