@@ -47,4 +47,13 @@
             </controller_action_layout_load_before>
         </events>
     </global>
+    <frontend>
+        <layout>
+            <updates>
+                <threekit>
+                    <file>bundle_threekit.xml</file>
+                </threekit>
+            </updates>
+        </layout>
+    </frontend>
 </config>
