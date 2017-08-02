@@ -9,16 +9,9 @@
     <PRODUCT_TYPE_bundle_threekit>
         <reference name="content">
             <remove name="product.info"/>
-            <block type="catalog/product_view" name="product.threekit.info" template="threekit/threekitView.phtml">
-                <block type="catalog/product_view_description" name="product.description" as="description" template="catalog/product/view/description.phtml">
-                    <action method="addToParentGroup"><group>detailed_info</group></action>
-                    <action method="setTitle" translate="value"><value>Description</value></action>
-                </block>
-                <block type="catalog/product_view_attributes" name="product.attributes" as="additional" template="catalog/product/view/attributes.phtml">
-                    <action method="addToParentGroup"><group>detailed_info</group></action>
-                    <action method="setTitle" translate="value"><value>Additional Information</value></action>
-                </block>
-            </block>
+            <remove name="product.info.options"/>
+            <remove name="product.info.options.wrapper.bottom"/>
+            <remove name="product.info.options.wrapper"/>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
