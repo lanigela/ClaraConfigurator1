@@ -31,14 +31,12 @@ class Exocortex_Threekit_Model_Observer
             if ($product) {
                 $attr = $product->getData('threekit');
                 if ($attr && !strcmp($attr, '1')) {
-                    $layout1 = $observer->getData('layout');
-                    if($layout1) {
-                        Mage::log("layout1", Zend_Log::DEBUG, "threekit.log");
-                    }
-                    $layout2 = $observer->getEvent()->getLayout();
-                    if ($layout2) {
-                        Mage::log("layout2", Zend_Log::DEBUG, "threekit.log");
-                    }
+                    $layout = $observer->getData('layout');
+
+                    $update = $layout->getUpdate();
+                    $handles = $update->getHandles();
+
+                    $update->addHandle('bundle_threekit');
                 }
             }
         }
