@@ -7,11 +7,9 @@
 -->
 <layout version="0.1.0">
     <PRODUCT_TYPE_bundle_threekit>
-        <reference name="product.info">
-            <remove name="product.info.media"/>
-            <remove name="product.info.options"/>
-            <remove name="product.info.options.wrapper.bottom"/>
-            <remove name="product.info.options.wrapper"/>
+        <reference name="content">
+            <reference name="product.info"/>
+            <action method="setTemplate"><template>threekit/threekitView.phtml</template></action>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
