@@ -9,7 +9,8 @@
     <PRODUCT_TYPE_bundle_threekit>
         <reference name="content">
             <remove name="product.info"/>
-
+            <block type="catalog/product_view" name="product.info.threekit" template="catalog/product/view.phtml">
+            </block>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
