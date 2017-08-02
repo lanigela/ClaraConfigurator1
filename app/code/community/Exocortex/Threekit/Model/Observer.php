@@ -30,7 +30,16 @@ class Exocortex_Threekit_Model_Observer
             $product = Mage::registry('current_product');
             if ($product) {
                 $attr = $product->getData('threekit');
-                Mage::log($attr, Zend_Log::DEBUG, "threekit.log");
+                if ($attr && !strcmp($attr, '1')) {
+                    $layout1 = $observer->getData('layout');
+                    if($layout1) {
+                        Mage::log("layout1", Zend_Log::DEBUG, "threekit.log");
+                    }
+                    $layout2 = $observer->getEvent()->getLayout();
+                    if ($layout2) {
+                        Mage::log("layout2", Zend_Log::DEBUG, "threekit.log");
+                    }
+                }
             }
         }
         return ;
