@@ -9,8 +9,9 @@
     <PRODUCT_TYPE_bundle_threekit>
         <reference name="product.info">
             <remove name="product.info.media"/>
-            <remove name="product.info.options.wrapper.bottom"/>
             <remove name="product.info.options"/>
+            <remove name="product.info.options.wrapper.bottom"/>
+            <remove name="product.info.options.wrapper"/>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
