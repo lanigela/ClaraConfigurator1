@@ -12,32 +12,37 @@
         </Exocortex_Threekit>
     </modules>
     <global>
+        <models>
+            <exocortex_threekit>
+                <class>Exocortex_Threekit_Model</class>
+            </exocortex_threekit>
+        </models>
         <events>
             <checkout_cart_product_add_after>
                 <observers>
-                    <exocortex_threekit_model_observer>
+                    <exocortex_threekit>
                         <type>singleton</type>
-                        <class>Exocortex_Threekit/observer</class>
+                        <class>exocortex_threekit/observer</class>
                         <method>addAdditionalOptionsToQuote</method>
-                    </exocortex_threekit_model_observer>
+                    </exocortex_threekit>
                 </observers>
             </checkout_cart_product_add_after>
             <sales_model_service_quote_submit_before>
                 <observers>
-                    <exocortex_threekit_model_observer>
+                    <exocortex_threekit>
                         <type>singleton</type>
-                        <class>Exocortex_Threekit/observer</class>
+                        <class>exocortex_threekit/observer</class>
                         <method>addAdditionalOptionsToSale</method>
-                    </exocortex_threekit_model_observer>
+                    </exocortex_threekit>
                 </observers>
             </sales_model_service_quote_submit_before>
             <controller_action_layout_load_before>
                 <observers>
-                    <exocortex_threekit_model_observer>
+                    <exocortex_threekit>
                         <type>singleton</type>
-                        <class>Exocortex_Threekit/observer</class>
+                        <class>exocortex_threekit/observer</class>
                         <method>replaceBundleLayout</method>
-                    </exocortex_threekit_model_observer>
+                    </exocortex_threekit>
                 </observers>
             </controller_action_layout_load_before>
         </events>
