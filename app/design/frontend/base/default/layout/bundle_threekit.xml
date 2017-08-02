@@ -7,8 +7,8 @@
 -->
 <layout version="0.1.0">
     <PRODUCT_TYPE_bundle_threekit>
-        <reference name="content">
-            <remove name="product.info"/>
+        <reference name="product.info">
+            <remove name="product.info.media"/>
             <remove name="product.info.options"/>
             <remove name="product.info.options.wrapper.bottom"/>
             <remove name="product.info.options.wrapper"/>
