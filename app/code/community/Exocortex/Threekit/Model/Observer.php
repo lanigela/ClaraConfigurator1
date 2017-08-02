@@ -43,7 +43,7 @@ class Exocortex_Threekit_Model_Observer
                         }
                     }
 
-                    $update->addHandle('bundle_threekit');
+                    $update->addHandle('PRODUCT_TYPE_bundle_threekit');
                 }
             }
         }

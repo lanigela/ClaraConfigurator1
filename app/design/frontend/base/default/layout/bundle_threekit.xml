@@ -6,5 +6,9 @@
  */
 -->
 <layout version="0.1.0">
-
+    <PRODUCT_TYPE_bundle_threekit>
+        <reference name="product.info">
+            <remove name="product.info.media"/>
+        </reference>
+    </PRODUCT_TYPE_bundle_threekit>
 </layout>
