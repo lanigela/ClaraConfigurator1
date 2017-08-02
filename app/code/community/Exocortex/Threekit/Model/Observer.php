@@ -36,8 +36,11 @@ class Exocortex_Threekit_Model_Observer
                     $update = $layout->getUpdate();
                     $handles = $update->getHandles();
 
+                    // remove default bundle layout
                     foreach ($handles as $handle) {
-                        Mage::log($handle, Zend_Log::DEBUG, "threekit.log");
+                        if ($handle == 'PRODUCT_TYPE_bundle') {
+                            $update->removeHandle($handle);
+                        }
                     }
 
                     $update->addHandle('bundle_threekit');
