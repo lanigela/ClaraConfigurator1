@@ -12,7 +12,7 @@
 <script type="text/javascript">
   console.log("inline js called");
   console.log(<?php /* @escapeNotVerified */ echo json_encode($this->getJsonConfig())?>);
-  console.log(<?php /* @escapeNotVerified */ echo json_encode($this->getAddToCartUrl($_product))?>);
+  console.log(<?php /* @escapeNotVerified */ echo json_encode($this->getSubmitUrl($_product, array('_secure' => $this->_isSecure())))?>);
   var threekitHandle = new ThreekitConfigurator();
 </script>
 
