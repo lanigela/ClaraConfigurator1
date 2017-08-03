@@ -25,20 +25,10 @@
                         ]]>
                     </text>
                 </action>
-                <action method="addText">
-                    <text>
-                        <![CDATA[
-                            <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
-                        ]]>
-                    </text>
+                <action method="addJs">
+                    <script>lib/jquery/jquery-ui-1.12.0.min.js</script>
                 </action>
             </block>
-            <!--action method="addJs">
-                <script>threekit/main.js</script>
-            </action-->
-            <!--action method="addJs">
-                <script>paymill/BrandDetection.js</script>
-            </action-->
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
