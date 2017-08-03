@@ -24,7 +24,6 @@ class Exocortex_Threekit_Model_Observer
             // assuming you are posting your custom form values in an array called extra_options...
             if ($options = $action->getRequest()->getParam('clara_additional_options'))
             {
-                Mage::log("clara_additional_options", Zend_Log::DEBUG, "threekit.log");
                 $decodePost = json_decode($options, true);
                 $product = $observer->getProduct();
 
@@ -36,7 +35,6 @@ class Exocortex_Threekit_Model_Observer
                 }
                 foreach ($decodePost as $key => $value)
                 {
-                    Mage::log($key, Zend_Log::DEBUG, "threekit.log");
                     $additionalOptions[] = array(
                         'label' => $key,
                         'value' => $value,
@@ -49,11 +47,12 @@ class Exocortex_Threekit_Model_Observer
         }
     }
 
-    public function addAdditionalOptionsToSale()
+    public function addAdditionalOptionsToSale($observer)
     {
         $quoteItem = $observer->getItem();
         if ($additionalOptions = $quoteItem->getOptionByCode('additional_options')) {
             $orderItem = $observer->getOrderItem();
+
             $options = $orderItem->getProductOptions();
             $options['additional_options'] = unserialize($additionalOptions->getValue());
             $orderItem->setProductOptions($options);
