@@ -26,9 +26,6 @@
                     </text>
                 </action>
             </block>
-            <action method="addJs">
-                <script>lib/jquery/jquery-ui-1.12.0.min.js</script>
-            </action>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>

@@ -3,64 +3,62 @@
  * See COPYING.txt for license details.
  */
 
-
-  $j.widget('clara.Configurator', {
-    options: {
+ class ThreekitConfigurator {
+  constructor(options) {
+    this.options = {
       optionConfig: null,
       submitUrl: null,
       productId: null,
       minicartSelector: '[data-block="minicart"]',
       messagesSelector: '[data-placeholder="messages"]',
       productStatusSelector: '.stock.available',
-    },
+    };
 
     /*
     * map clara config to magento option id
     */
-    configMap: null,
+    this.configMap = null;
 
     /*
     * type can be Options, Number, Boolean, Color
     */
-    configType: null,
+    this.configType = null;
 
     /* for a config option in clara, if a mapping in magento config cannot be found,
     *  treat it as an additional text field when add to cart
     */
-    additionalOptions: null,
+    this.additionalOptions = null;
 
     /*
     * Catalog-Add-To-Cart from Magento_Catalog/js/catalog-add-to-cart
     */
-    addToCartHelper: null,
+    this.addToCartHelper = null;
 
-    claraConfig: null,
+    this.claraConfig = null;
 
-    currentConfig: null,
+    this.currentConfig = null;
 
-    currentConfigVolume: null,
+    this.currentConfigVolume = null;
 
-    magentoConfig: null,
+    this.magentoConfig = null;
 
-    isMapCreated: false,
+    this.isMapCreated = false;
 
-    dimensions: null,
+    this.dimensions = null;
 
-    _init: function () {
-      console.log("widget init");
-    },
+  }
 
-    _create: function () {
-      var self = this;
-      console.log("widget created");
+  _create () {
+    var self = this;
+    console.log("widget created");
       // init react app
       require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
       });
-    },
+    }
 
-    _setupConfigurator: function (clara) {
+    _setupConfigurator (clara) {
       var self = this;
       // clara is already loaded at this point
 
@@ -91,9 +89,9 @@
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
       };
-    },
+    }
 
-    _submitForm: function (form) {
+    _submitForm (form) {
       var self = this;
 
       // update minicart
@@ -150,16 +148,16 @@
           }
         }
       });
-    },
+    }
 
-    _createConfigType: function () {
+    _createConfigType () {
       var claraConfig = this.claraConfig;
       var configType = new Map();
       for (var key in claraConfig) {
         configType.set(claraConfig[key].name, claraConfig[key].type);
       }
       return configType;
-    },
+    }
 
     // map clara configuration with magento (reverse map of this.options.optionConfig.options)
     /* this.options.optionConfig.options structure
@@ -177,7 +175,7 @@
     * Name and title are unique
     * Make sure it's an one-to-one mapping, otherwise report error
     */
-    _mappingConfiguration: function () {
+    _mappingConfiguration () {
       var claraCon = this.claraConfig;
       var magentoCon = this.magentoConfig;
       var claraKey = new Map();
@@ -216,11 +214,11 @@
       console.log(this.additionalOptions);
 
       return map;
-    },
+    }
 
 
     // recursively reverse mapping in primary using target as reference
-    _reverseMapping: function (primary, primaryKey, target, targetKey, optionsNotFound) {
+    _reverseMapping (primary, primaryKey, target, targetKey, optionsNotFound) {
       // result (using ES6 map)
       var map = new Map();
       // save the values in target that already find a matching, to ensure 1-to-1 mapping
@@ -266,22 +264,22 @@
               var childMap = null;
               switch (target[tKey].type) {
                 case 'Number':
-                  childMap = [primaryValue];
-                  break;
+                childMap = [primaryValue];
+                break;
                 case 'Options':
-                  childMap = target[tKey][targetKey.get('nested').get('keyInParent')]
-                  break;
+                childMap = target[tKey][targetKey.get('nested').get('keyInParent')]
+                break;
                 case 'Boolean':
-                  childMap = ['true', 'false'];
-                  break;
+                childMap = ['true', 'false'];
+                break;
                 case 'Color':
-                  break;
+                break;
               }
               var nestedMap = this._reverseMapping(primary[pKey][primaryKey.get('nested').get('keyInParent')],
-                                               primaryKey.get('nested'),
-                                               childMap,
-                                               targetKey.get('nested'),
-                                               null);
+               primaryKey.get('nested'),
+               childMap,
+               targetKey.get('nested'),
+               null);
               mappedValue.set('options', nestedMap);
             }
             else{
@@ -313,7 +311,7 @@
         }
       }
       return map;
-    },
+    }
 
     // check if clara configuration match with magento
     _validateConfiguration(claraCon, magentoCon) {
@@ -348,59 +346,59 @@
               result['bundle_option[' + attrId + ']'] = attrValue;
               result['bundle_option_qty[' + attrId + ']'] = config[attr];
               break;
-            case 'Options':
+              case 'Options':
               // update options
               // choose from leather or fabric
               if (attr === "Fabric Options" && config["Cover Material"] === "Leather" ||
-                  attr === "Leather Options" && config["Cover Material"] === "Fabric") {
+                attr === "Leather Options" && config["Cover Material"] === "Fabric") {
                 break;
-              }
+            }
               // sometimes config[attr] is an obj...
               var configString = typeof config[attr] == 'string' ? config[attr] : config[attr].value;
               var attrValue = map.get(attr).get('options').get(configString).get('id');
               result['bundle_option[' + attrId + ']'] = attrValue;
               result['bundle_option_qty[' + attrId + ']'] = '1';
               break;
-            case 'Boolean':
+              case 'Boolean':
               // update boolean
               var attrValue = map.get(attr).get('options').get(config[attr].toString()).get('id');
               result['bundle_option[' + attrId + ']'] = attrValue;
               result['bundle_option_qty[' + attrId + ']'] = '1';
               break;
-            case 'Color':
+              case 'Color':
               // color will be treated as additional option
               break;
-          }
-
-
-        }
-        else if (additionalOptions.includes(attr)) {
-          var optionString = "";
-          if (typeof config[attr] == 'string') {
-            optionString = config[attr];
-          }
-          else if (typeof config[attr] == 'number') {
-            if (dimensions.includes(attr)) {
-                volume = config[attr] * volume;
             }
-            optionString = config[attr].toString();
+
+
           }
-          else if (typeof config[attr] == 'object') {
-            for (var key in config[attr]) {
-              if (config[attr].hasOwnProperty(key)) {
-                optionString = optionString + key + ": " + config[attr][key] + " ";
+          else if (additionalOptions.includes(attr)) {
+            var optionString = "";
+            if (typeof config[attr] == 'string') {
+              optionString = config[attr];
+            }
+            else if (typeof config[attr] == 'number') {
+              if (dimensions.includes(attr)) {
+                volume = config[attr] * volume;
+              }
+              optionString = config[attr].toString();
+            }
+            else if (typeof config[attr] == 'object') {
+              for (var key in config[attr]) {
+                if (config[attr].hasOwnProperty(key)) {
+                  optionString = optionString + key + ": " + config[attr][key] + " ";
+                }
               }
             }
+            else {
+              console.warn("Don't know how to print " + attr);
+            }
+            additionalObj[attr] = optionString;
           }
           else {
-            console.warn("Don't know how to print " + attr);
+            console.warn(attr + " not found in config map");
           }
-          additionalObj[attr] = optionString;
         }
-        else {
-          console.warn(attr + " not found in config map");
-        }
-      }
       // update volume price
       volume = volume / 10;
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
@@ -417,12 +415,12 @@
       return result;
     },
 
-    _isNumber: function (n) {
+    _isNumber (n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
-    },
+    }
 
 
-    _updatePrice: function () {
+    _updatePrice () {
       var volume = this.currentConfigVolume;
       var config = this.currentConfig;
       var map = this.configMap;
@@ -445,7 +443,5 @@
       }
     }
 
-  });
+  }
 
-var threekitHandle = $j('clara-configurations-wrapper').Configurator({
-});
