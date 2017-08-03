@@ -37,11 +37,6 @@
     */
     this.additionalOptions = null;
 
-    /*
-    * Catalog-Add-To-Cart from Magento_Catalog/js/catalog-add-to-cart
-    */
-    this.addToCartHelper = null;
-
     this.claraConfig = null;
 
     this.currentConfig = null;
@@ -70,9 +65,6 @@
     _setupConfigurator (clara) {
       var self = this;
       // clara is already loaded at this point
-
-      // create add to cart jquery widget
-      this.addToCartHelper = catalogAddToCart();
 
       this.dimensions = ['Height', 'Width (A)', 'Depth'];
 
@@ -331,7 +323,7 @@
       var result = {};
       var config = this.currentConfig;
       result['product'] = this.options.productId;
-      result['form_key'] = $.cookie('form_key');
+      result['form_key'] = this.options.formKey;
       if (!config) {
         return result;
       }
