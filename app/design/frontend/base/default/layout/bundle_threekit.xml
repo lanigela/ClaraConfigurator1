@@ -26,6 +26,9 @@
                     </text>
                 </action>
             </block>
+            <action method="addJs">
+                <script>threekit/threekitConfigurator.js</script>
+            </action>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
 </layout>
