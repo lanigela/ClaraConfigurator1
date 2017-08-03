@@ -47,11 +47,12 @@
     dimensions: null,
 
     _init: function () {
-
+      console.log("widget init");
     },
 
     _create: function () {
       var self = this;
+      console.log("widget created");
       // init react app
       require(["cillowreact"], function (){
         // setup configurator
