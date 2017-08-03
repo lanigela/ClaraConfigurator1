@@ -14,9 +14,45 @@
 class Exocortex_Threekit_Model_Observer
 {
 
-    public function addAdditionalOptionsToQuote()
+    public function addAdditionalOptionsToQuote($observer)
     {
+        $item = $observer->getQuoteItem();
 
+        $additionalOptions = array();
+
+        if ($additionalOption = $item->getOptionByCode('additional_options')){
+            $additionalOptions = (array) unserialize($additionalOption->getValue());
+        }
+
+        $post = $this->_request->getParam('clara_additional_options');
+        $decodePost = json_decode($post, true);
+
+        if(is_array($decodePost)){
+            foreach($decodePost as $key => $value){
+                if($key == '' || $value == ''){
+                    continue;
+                }
+
+                $additionalOptions[] = [
+                    'label' => $key,
+                    'value' => $value
+                ];
+            }
+        }
+        else {
+            $additionalOptions[] = [
+                    'label' => 'Option(s)',
+                    'value' => $decodePost
+                ];
+        }
+
+        if(count($additionalOptions) > 0){
+            $item->addOption(array(
+                'product_id' => $item->getProductId(),
+                'code' => 'additional_options',
+                'value' => serialize($additionalOptions)
+            ));
+        }
     }
 
     public function addAdditionalOptionsToSale()
