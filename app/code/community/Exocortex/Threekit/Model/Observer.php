@@ -20,9 +20,11 @@ class Exocortex_Threekit_Model_Observer
         $action = Mage::app()->getFrontController()->getAction();
         if ($action->getFullActionName() == 'checkout_cart_add')
         {
+            Mage::log("checkout_cart_add", Zend_Log::DEBUG, "threekit.log");
             // assuming you are posting your custom form values in an array called extra_options...
             if ($options = $action->getRequest()->getParam('clara_additional_options'))
             {
+                Mage::log("clara_additional_options", Zend_Log::DEBUG, "threekit.log");
                 $product = $observer->getProduct();
 
                 // add to the additional options array
@@ -33,6 +35,7 @@ class Exocortex_Threekit_Model_Observer
                 }
                 foreach ($options as $key => $value)
                 {
+                    Mage::log($key, Zend_Log::DEBUG, "threekit.log");
                     $additionalOptions[] = array(
                         'label' => $key,
                         'value' => $value,
