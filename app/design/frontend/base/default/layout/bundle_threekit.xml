@@ -7,6 +7,26 @@
 -->
 <layout version="0.1.0">
     <PRODUCT_TYPE_bundle_threekit>
+        <reference name="head">
+            <action method="addCss">
+                <stylesheet>css/threekit/main.css</stylesheet>
+            </action>
+            <block type="core/text" name="threekit_head">
+                <action method="addText">
+                    <text>
+                        <![CDATA[
+                            <script type="text/javascript" src="https://clara.io/js/claraplayer.js"></script>
+                        ]]>
+                    </text>
+                </action>
+            </block>
+            <action method="addJs">
+                <script>threekit/main.js</script>
+            </action>
+            <!--action method="addJs">
+                <script>paymill/BrandDetection.js</script>
+            </action-->
+        </reference>
         <reference name="content">
             <reference name="product.info">
                 <action method="setTemplate"><template>threekit/threekitView.phtml</template></action>
