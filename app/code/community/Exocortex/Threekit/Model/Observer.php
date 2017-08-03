@@ -51,7 +51,7 @@ class Exocortex_Threekit_Model_Observer
 
             if(count($additionalOptions) > 0){
                 $item->addOption(array(
-                    'code' => 'additional_options'
+                    'code' => 'additional_options',
                     'value' => serialize($additionalOptions)
                 ));
             }
