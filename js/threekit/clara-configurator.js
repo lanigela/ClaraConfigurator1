@@ -3,8 +3,8 @@
  * See COPYING.txt for license details.
  */
 
-(function ($) {
-  $.widget('clara.Configurator', {
+
+  $j.widget('clara.Configurator', {
     options: {
       optionConfig: null,
       submitUrl: null,
@@ -446,4 +446,4 @@
 
   });
 
-})(jQuery);
+
