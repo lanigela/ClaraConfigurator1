@@ -52,16 +52,18 @@
 
     this.dimensions = null;
 
+    this._create();
+
   }
 
   _create () {
     var self = this;
     console.log("widget created");
-      // init react app
-      require(["cillowreact"], function (){
+    console.log(window.clara);
+      /*require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
-      });
+      });*/
     }
 
     _setupConfigurator (clara) {
