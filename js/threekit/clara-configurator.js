@@ -3,6 +3,7 @@
  * See COPYING.txt for license details.
  */
 
+(function ($) {
   $.widget('clara.Configurator', {
     options: {
       optionConfig: null,
@@ -445,4 +446,4 @@
 
   });
 
-
+})(jQuery);
