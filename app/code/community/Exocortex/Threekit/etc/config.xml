@@ -17,6 +17,11 @@
                 <class>Exocortex_Threekit_Model</class>
             </exocortex_threekit>
         </models>
+        <blocks>
+            <bundlethreekit>
+                <class>Exocortex_Threekit_Block</class>
+            </bundlethreekit>
+        </blocks>
         <events>
             <checkout_cart_product_add_after>
                 <observers>

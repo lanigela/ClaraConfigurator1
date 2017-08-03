@@ -21,7 +21,7 @@ class Exocortex_Threekit_Block_Bundlethreekit extends Mage_Catalog_Block_Product
     {
         if (!$this->inited) {
             $this->bundle = $this->getLayout()->getBlockSingleton('Mage_Bundle_Block_Catalog_Product_View_Type_Bundle');
-            $this->view = $this->getLayout()->getBlockSingleton('Mage_Catalog_Block_Product_View');;
+            $this->view = $this->getLayout()->getBlockSingleton('Mage_Catalog_Block_Product_View');
             $this->inited = true;
         }
     }
