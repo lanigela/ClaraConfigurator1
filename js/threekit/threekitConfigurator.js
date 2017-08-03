@@ -21,7 +21,6 @@
       this.options.formKey = options.formKey;
       this.options.productId = options.productId;
     }
-    console.log(this.options);
 
     /*
     * map clara config to magento option id
@@ -61,8 +60,7 @@
 
   _create () {
     var self = this;
-    console.log("widget created");
-    console.log(window.clara);
+    _setupConfigurator(window.clara.api);
       /*require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
