@@ -30,6 +30,7 @@
         <reference name="content">
             <reference name="product.info">
                 <action method="setTemplate"><template>threekit/threekitView.phtml</template></action>
+                <block type="core/template" name="product.info.threekit" template="threekit/threekitConfigurator.phtml">
             </reference>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
