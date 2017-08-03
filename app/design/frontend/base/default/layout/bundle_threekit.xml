@@ -28,9 +28,9 @@
             </action-->
         </reference>
         <reference name="content">
-            <block type="core/template" name="product.threekit" before="product.info" template="threekit/threekitConfigurator.phtml">
             <reference name="product.info">
                 <action method="setTemplate"><template>threekit/threekitView.phtml</template></action>
+                <block type="core/template" name="product.info.threekit" template="threekit/threekitConfigurator.phtml"/>
             </reference>
         </reference>
     </PRODUCT_TYPE_bundle_threekit>
