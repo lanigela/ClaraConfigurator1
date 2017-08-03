@@ -86,7 +86,7 @@
       });
 
       // setup addToCartHandle
-      window.clara.AddToCartHandle = function() {
+      window.clara.attachCheckoutHandler = function() {
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
       };
