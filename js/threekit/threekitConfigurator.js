@@ -283,7 +283,7 @@
             }
             else{
               // this is a leaf node, copy price info into it
-              mappedValue.set('prices', primary[pKey]['prices']);
+              mappedValue.set('price', primary[pKey]['price']);
             }
             map.set(targetValue, mappedValue);
             foundMatching = true;
@@ -425,14 +425,14 @@
       var map = this.configMap;
       // volume price based on material
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
-      var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('prices')['finalPrice']['amount'];
+      var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('price');
       var result = volume ? volume * unitPrice : 0;
 
       for (var key in config) {
         if (map.has(key)) {
           var optionMap = map.get(key).get('options');
           if (optionMap.has(config[key])) {
-            result += map.get(key).get('options').get(config[key]).get('prices')['finalPrice']['amount'];
+            result += map.get(key).get('options').get(config[key]).get('price');
           }
         }
       }
