@@ -413,7 +413,7 @@
       this.currentConfigVolume = volume;
 
       return result;
-    },
+    }
 
     _isNumber (n) {
       return !isNaN(parseFloat(n)) && isFinite(n);
