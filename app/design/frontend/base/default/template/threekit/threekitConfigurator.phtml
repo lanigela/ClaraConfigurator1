@@ -4,16 +4,18 @@
  * See COPYING.txt for license details.
  */
 ?>
-<?php $_product = $this->getProduct() ?>
+<?php $product = $this->getProduct() ?>
 <div class="" id="clara-player" style="height:1000px">
   <div id="root"></div>
 </div>
 <script type="text/javascript" src="js/threekit/main.js"></script>
 <script type="text/javascript">
-  console.log("inline js called");
-  console.log(<?php /* @escapeNotVerified */ echo json_encode($this->getJsonConfig())?>);
-  console.log(<?php /* @escapeNotVerified */ echo json_encode(Mage::getSingleton('core/session')->getFormKey())?>);
-  console.log(<?php /* @escapeNotVerified */ echo json_encode($this->getSubmitUrl($_product, array('_secure' => $this->_isSecure())))?>);
-  var threekitHandle = new ThreekitConfigurator();
+  var confOptions = {
+    optionConfig: <?php /* @escapeNotVerified */ echo $this->getJsonConfig()?>,
+    formKey: <?php /* @escapeNotVerified */ echo json_encode(Mage::getSingleton('core/session')->getFormKey())?>,
+    submitUrl: <?php /* @escapeNotVerified */ echo json_encode($this->getSubmitUrl($product, array('_secure' => $this->_isSecure())))?>,
+    productId: <?php /* @escapeNotVerified */ echo json_encode($product->getId())?>
+  };
+  var threekitHandle = new ThreekitConfigurator(confOptions);
 </script>
 

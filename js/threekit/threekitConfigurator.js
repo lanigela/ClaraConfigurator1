@@ -8,6 +8,7 @@
     this.options = {
       optionConfig: null,
       submitUrl: null,
+      formKey: null,
       productId: null,
       minicartSelector: '[data-block="minicart"]',
       messagesSelector: '[data-placeholder="messages"]',
@@ -17,8 +18,10 @@
     if (options) {
       this.options.optionConfig = options.optionConfig;
       this.options.submitUrl = options.submitUrl;
+      this.options.formKey = options.formKey;
       this.options.productId = options.productId;
     }
+    console.log(this.options);
 
     /*
     * map clara config to magento option id
