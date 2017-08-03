@@ -21,6 +21,7 @@
       this.options.formKey = options.formKey;
       this.options.productId = options.productId;
     }
+    console.log(options.optionConfig);
 
     /*
     * map clara config to magento option id
@@ -77,11 +78,8 @@
           self.configMap = self._mappingConfiguration();
           self.configType = self._createConfigType();
           self._generatePostData();
-          //self._createFormFields(self.options.optionConfig.options); >>>>>>>>>>>>>>>>> to be delete
           self.isMapCreated = true;
         }
-        // update add-to-cart form
-        //var volume = self._updateFormFields(clara.configuration.getConfiguration(), self.configMap, self.configType, self.additionalOptions, dimensions); >>>>>>>>>>>>>>>>> to be delete
         self._updatePrice();
       });
 
