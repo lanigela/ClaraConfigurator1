@@ -97,9 +97,7 @@
       var xhr = new XMLHttpRequest();
       xhr.open('POST', self.options.submitUrl, true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.onload = function() {
-        console.log(xhr.responseText);
-      };
+
       xhr.send(postParams);
       /*$.ajax({
         url: self.options.submitUrl,
