@@ -9,10 +9,7 @@
       optionConfig: null,
       submitUrl: null,
       formKey: null,
-      productId: null,
-      minicartSelector: '[data-block="minicart"]',
-      messagesSelector: '[data-placeholder="messages"]',
-      productStatusSelector: '.stock.available',
+      productId: null
     };
 
     if (options) {
@@ -84,17 +81,14 @@
       });
 
       // setup addToCartHandle
-      window.clara.attachCheckoutHandler = function() {
+      window.clara.attachCheckoutHander(function() {
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
-      };
+      });
     }
 
     _submitForm (form) {
       var self = this;
-
-      // update minicart
-      $(self.options.minicartSelector).trigger('contentLoading');
 
       const postParams = Object.keys(form).map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(form[key]);
@@ -109,42 +103,7 @@
 
         /** @inheritdoc */
         success: function (res) {
-          var eventData, parameters;
-
-          if (res.backUrl) {
-            eventData = {
-              'form': form,
-              'redirectParameters': []
-            };
-            // trigger global event, so other modules will be able add parameters to redirect url
-            $('body').trigger('catalogCategoryAddToCartRedirect', eventData);
-
-            if (eventData.redirectParameters.length > 0) {
-              parameters = res.backUrl.split('#');
-              parameters.push(eventData.redirectParameters.join('&'));
-              res.backUrl = parameters.join('#');
-            }
-            window.location = res.backUrl;
-
-            return;
-          }
-
-          if (res.messages) {
-            $(self.options.messagesSelector).html(res.messages);
-          }
-
-          if (res.minicart) {
-            $(self.options.minicartSelector).replaceWith(res.minicart);
-            $(self.options.minicartSelector).trigger('contentUpdated');
-          }
-
-          if (res.product && res.product.statusText) {
-            $(self.options.productStatusSelector)
-            .removeClass('available')
-            .addClass('unavailable')
-            .find('span')
-            .html(res.product.statusText);
-          }
+          console.log(res);
         }
       });
     }
