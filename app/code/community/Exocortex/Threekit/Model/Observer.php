@@ -25,6 +25,7 @@ class Exocortex_Threekit_Model_Observer
             if ($options = $action->getRequest()->getParam('clara_additional_options'))
             {
                 Mage::log("clara_additional_options", Zend_Log::DEBUG, "threekit.log");
+                $decodePost = json_decode($post, true);
                 $product = $observer->getProduct();
 
                 // add to the additional options array
@@ -33,7 +34,7 @@ class Exocortex_Threekit_Model_Observer
                 {
                     $additionalOptions = (array) unserialize($additionalOption->getValue());
                 }
-                foreach ($options as $key => $value)
+                foreach ($decodePost as $key => $value)
                 {
                     Mage::log($key, Zend_Log::DEBUG, "threekit.log");
                     $additionalOptions[] = array(
