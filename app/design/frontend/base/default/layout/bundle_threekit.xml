@@ -26,9 +26,9 @@
                     </text>
                 </action>
             </block>
-            <action method="addJs">
+            <!--action method="addJs">
                 <script>threekit/main.js</script>
-            </action>
+            </action-->
             <!--action method="addJs">
                 <script>paymill/BrandDetection.js</script>
             </action-->
