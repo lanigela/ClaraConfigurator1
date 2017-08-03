@@ -94,18 +94,24 @@
         return encodeURIComponent(key) + '=' + encodeURIComponent(form[key]);
       }).join('&');
 
-
-      $.ajax({
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', self.options.submitUrl, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+        console.log(xhr.responseText);
+      };
+      xhr.send(postParams);
+      /*$.ajax({
         url: self.options.submitUrl,
         data: postParams,
         type: 'post',
         contentType: 'application/x-www-form-urlencoded',
 
-        /** @inheritdoc */
+
         success: function (res) {
           console.log(res);
         }
-      });
+      });*/
     }
 
     _createConfigType () {
