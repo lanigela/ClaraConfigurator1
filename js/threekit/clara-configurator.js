@@ -447,4 +447,5 @@
 
   });
 
-
+var threekitHandle = $j('clara-configurations-wrapper').Configurator({
+});
