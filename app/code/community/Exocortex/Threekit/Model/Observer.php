@@ -16,44 +16,31 @@ class Exocortex_Threekit_Model_Observer
 
     public function addAdditionalOptionsToQuote($observer)
     {
-        $item = $observer->getQuoteItem();
-
-        $additionalOptions = array();
-
-        if ($additionalOption = $item->getOptionByCode('additional_options')){
-            $additionalOptions = (array) unserialize($additionalOption->getValue());
-        }
-
+        // set the additional options on the product
         $action = Mage::app()->getFrontController()->getAction();
+        if ($action->getFullActionName() == 'checkout_cart_add')
+        {
+            // assuming you are posting your custom form values in an array called extra_options...
+            if ($options = $action->getRequest()->getParam('clara_additional_options'))
+            {
+                $product = $observer->getProduct();
 
-        if ($action->getFullActionName() == 'checkout_cart_add') {
-            $post = $action->getRequest()->getParam('clara_additional_options');
-            $decodePost = json_decode($post, true);
-
-            if(is_array($decodePost)){
-                foreach($decodePost as $key => $value){
-                    if($key == '' || $value == ''){
-                        continue;
-                    }
-
-                    $additionalOptions[] = [
-                        'label' => $key,
-                        'value' => $value
-                    ];
+                // add to the additional options array
+                $additionalOptions = array();
+                if ($additionalOption = $product->getCustomOption('additional_options'))
+                {
+                    $additionalOptions = (array) unserialize($additionalOption->getValue());
                 }
-            }
-            else {
-                $additionalOptions[] = [
-                        'label' => 'Option(s)',
-                        'value' => $decodePost
-                    ];
-            }
-
-            if(count($additionalOptions) > 0){
-                $item->addOption(array(
-                    'code' => 'additional_options',
-                    'value' => serialize($additionalOptions)
-                ));
+                foreach ($options as $key => $value)
+                {
+                    $additionalOptions[] = array(
+                        'label' => $key,
+                        'value' => $value,
+                    );
+                }
+                // add the additional options array with the option code additional_options
+                $observer->getProduct()
+                    ->addCustomOption('additional_options', serialize($additionalOptions));
             }
         }
     }
