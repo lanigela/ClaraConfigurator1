@@ -47,13 +47,7 @@ class Exocortex_Threekit_Model_Observer
 
     public function addAdditionalOptionsToSale()
     {
-        $quoteItem = $observer->getItem();
-        if ($additionalOptions = $quoteItem->getOptionByCode('additional_options')) {
-            $orderItem = $observer->getOrderItem();
-            $options = $orderItem->getProductOptions();
-            $options['additional_options'] = unserialize($additionalOptions->getValue());
-            $orderItem->setProductOptions($options);
-        }
+
     }
 
     public function replaceBundleLayout($observer)
