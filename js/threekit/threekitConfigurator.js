@@ -316,7 +316,7 @@
     // check if clara configuration match with magento
     _validateConfiguration(claraCon, magentoCon) {
 
-    },
+    }
 
     _generatePostData() {
       var result = {};
