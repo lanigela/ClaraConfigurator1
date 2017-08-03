@@ -60,7 +60,7 @@
 
   _create () {
     var self = this;
-    _setupConfigurator(window.clara.api);
+    this._setupConfigurator(window.clara.api);
       /*require(["cillowreact"], function (){
         // setup configurator
         self._setupConfigurator(window.clara.api);
