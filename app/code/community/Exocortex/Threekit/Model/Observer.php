@@ -24,34 +24,38 @@ class Exocortex_Threekit_Model_Observer
             $additionalOptions = (array) unserialize($additionalOption->getValue());
         }
 
-        $post = $this->_request->getParam('clara_additional_options');
-        $decodePost = json_decode($post, true);
+        $action = Mage::app()->getFrontController()->getAction();
 
-        if(is_array($decodePost)){
-            foreach($decodePost as $key => $value){
-                if($key == '' || $value == ''){
-                    continue;
+        if ($action->getFullActionName() == 'checkout_cart_add') {
+            $post = $action->getRequest()->getParam('clara_additional_options');
+            $decodePost = json_decode($post, true);
+
+            if(is_array($decodePost)){
+                foreach($decodePost as $key => $value){
+                    if($key == '' || $value == ''){
+                        continue;
+                    }
+
+                    $additionalOptions[] = [
+                        'label' => $key,
+                        'value' => $value
+                    ];
                 }
-
-                $additionalOptions[] = [
-                    'label' => $key,
-                    'value' => $value
-                ];
             }
-        }
-        else {
-            $additionalOptions[] = [
-                    'label' => 'Option(s)',
-                    'value' => $decodePost
-                ];
-        }
+            else {
+                $additionalOptions[] = [
+                        'label' => 'Option(s)',
+                        'value' => $decodePost
+                    ];
+            }
 
-        if(count($additionalOptions) > 0){
-            $item->addOption(array(
-                'product_id' => $item->getProductId(),
-                'code' => 'additional_options',
-                'value' => serialize($additionalOptions)
-            ));
+            if(count($additionalOptions) > 0){
+                $item->addOption(array(
+                    'product_id' => $item->getProductId(),
+                    'code' => 'additional_options',
+                    'value' => serialize($additionalOptions)
+                ));
+            }
         }
     }
 
