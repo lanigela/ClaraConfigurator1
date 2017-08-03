@@ -13,13 +13,15 @@ class Exocortex_Threekit_Block_BundleThreekit extends Mage_Catalog_Block_Product
 {
     protected $bundle;
 
+    protected $view;
 
     protected $inited = false;
 
     protected function init()
     {
         if (!$this->inited) {
-            $this->bundle = $this->getLayout()->getBlockSingleton('Mage_Bundle_Block_Catalog_Product_View_Type_Bundle');;
+            $this->bundle = $this->getLayout()->getBlockSingleton('Mage_Bundle_Block_Catalog_Product_View_Type_Bundle');
+            $this->view = $this->getLayout()->getBlockSingleton('Mage_Catalog_Block_Product_View');;
             $this->inited = true;
         }
     }
@@ -37,7 +39,7 @@ class Exocortex_Threekit_Block_BundleThreekit extends Mage_Catalog_Block_Product
         if (!$this->inited) {
             $this->init();
         }
-        return $this->getAddToCartUrl($product, $additional);
+        return $this->view->getSubmitUrl($product, $additional);
     }
 
 }
