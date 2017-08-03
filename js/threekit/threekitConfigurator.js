@@ -14,6 +14,12 @@
       productStatusSelector: '.stock.available',
     };
 
+    if (options) {
+      this.options.optionConfig = options.optionConfig;
+      this.options.submitUrl = options.submitUrl;
+      this.options.productId = options.productId;
+    }
+
     /*
     * map clara config to magento option id
     */
@@ -445,4 +451,3 @@
 
   }
 
-module.exports = ThreekitConfigurator;
