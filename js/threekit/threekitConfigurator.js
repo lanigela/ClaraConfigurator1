@@ -447,11 +447,12 @@
       // thickness
       if (config['Pillow Type'] === 'Back (Puffy)') volume *= this._getBackPuffyThickness(config);
 
-      return volume;
+      // return dm^3 (litre)
+      return volume * 1000;
     }
 
     // Get surface area of cushion, approximated as box
-    _getFabricArea(config) {
+    _getFabricArea(config, unit = 'dm2') {
       var dimensions = this._getCushionDimensions(config);
 
       var maxWidth = dimensions.width.reduce(function (min, value) {
@@ -469,7 +470,8 @@
         return Math.max(min, Number(config[value]) / 100);
       }, 0);
 
-      return maxWidth * maxThickness * 2 + maxWidth * maxDepth * 2 + maxThickness * maxDepth * 2;
+      // return dm^2
+      return maxWidth * maxThickness * 2 + maxWidth * maxDepth * 2 + maxThickness * maxDepth * 2 * 100;
     }
 
 
