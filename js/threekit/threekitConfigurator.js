@@ -88,6 +88,9 @@
 
       // setup addToCartHandle
       window.clara.attachCheckoutHander(function() {
+        // update volume and area
+        self.currentConfigFoamVolume = self._getFoamVolume(self.currentConfig);
+        self.currentConfigFabricArea = self._getFabricArea(self.currentConfig);
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
       });
@@ -362,11 +365,11 @@
           }
         }
       // update volume price
-      /*var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
+      var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
       var volumeId = map.get('Volume_Price').get('id');
       var volumeOptionId = map.get('Volume_Price').get('options').get(materialPrice).get('id');
       result['bundle_option[' + volumeId + ']'] = volumeOptionId;
-      result['bundle_option_qty[' + volumeId + ']'] = volume;*/
+      result['bundle_option_qty[' + volumeId + ']'] = this.currentConfigFoamVolume;
 
       // update additional options
       result['clara_additional_options'] = JSON.stringify(additionalObj);
