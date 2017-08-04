@@ -90,7 +90,7 @@
       window.clara.attachCheckoutHander(function() {
         // update volume and area
         self.currentConfigFoamVolume = self._getFoamVolume(self.currentConfig).toFixed(2);
-        self.currentConfigFabricArea = self._getFabricArea(self.currentConfig).toFixex(2);
+        self.currentConfigFabricArea = self._getFabricArea(self.currentConfig).toFixed(2);
         var jsForm = self._generatePostData();
         self._submitForm(jsForm);
       });
