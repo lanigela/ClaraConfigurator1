@@ -39,13 +39,15 @@
 
     this.currentConfig = null;
 
-    this.currentConfigVolume = null;
+    /*
+    * Volume and area
+    */
+    this.currentConfigFoamVolume = null;
+    this.currentConfigFabricArea = null;
 
     this.magentoConfig = null;
 
     this.isMapCreated = false;
-
-    this.dimensions = null;
 
     this._create();
 
@@ -64,8 +66,6 @@
       var self = this;
       // clara is already loaded at this point
 
-      this.dimensions = ['Height', 'Width (A)', 'Depth'];
-
       clara.on('configurationChange', function (ev) {
         self.currentConfig = clara.configuration.getConfiguration();
         if (!self.isMapCreated) {
@@ -77,6 +77,12 @@
           self._generatePostData();
           self.isMapCreated = true;
         }
+        // update volume and area
+        self.currentConfigFoamVolume = self._getFoamVolume(self.currentConfig);
+        self.currentConfigFabricArea = self._getFabricArea(self.currentConfig);
+        console.log("Foam volume = " + self.currentConfigFoamVolume);
+        console.log("Fabric area= " + self.currentConfigFabricArea);
+        // update price
         self._updatePrice();
       });
 
@@ -294,8 +300,6 @@
       var map = this.configMap;
       var configType = this.configType;
       var additionalOptions = this.additionalOptions;
-      var dimensions = this.dimensions;
-      var volume = 1;
       var additionalObj = {};
       for (var attr in config) {
         if (map.has(attr)) {
@@ -303,9 +307,6 @@
           switch (configType.get(attr)) {
             case 'Number':
               // update number
-              if (dimensions.includes(attr)) {
-                volume = config[attr] * volume;
-              }
               var attrValue = map.get(attr).get('options').get(attr).get('id')
               result['bundle_option[' + attrId + ']'] = attrValue;
               result['bundle_option_qty[' + attrId + ']'] = config[attr];
@@ -342,9 +343,6 @@
               optionString = config[attr];
             }
             else if (typeof config[attr] == 'number') {
-              if (dimensions.includes(attr)) {
-                volume = config[attr] * volume;
-              }
               optionString = config[attr].toString();
             }
             else if (typeof config[attr] == 'object') {
@@ -364,17 +362,14 @@
           }
         }
       // update volume price
-      volume = volume / 10;
-      var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
+      /*var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
       var volumeId = map.get('Volume_Price').get('id');
       var volumeOptionId = map.get('Volume_Price').get('options').get(materialPrice).get('id');
       result['bundle_option[' + volumeId + ']'] = volumeOptionId;
-      result['bundle_option_qty[' + volumeId + ']'] = volume;
+      result['bundle_option_qty[' + volumeId + ']'] = volume;*/
 
       // update additional options
       result['clara_additional_options'] = JSON.stringify(additionalObj);
-
-      this.currentConfigVolume = volume;
 
       return result;
     }
@@ -383,15 +378,106 @@
       return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
+    /*
+    * Volume algorithm from David
+    */
+    _getBackPuffyThickness(config) {
+      var defaultThicknessBackPuffy = 0.2;
+      var width = Number(config['Width (A)']) / 100;
+      var height = Number(config['Height']) / 100;
+
+      if (width < height) {
+        thicknessA = defaultThicknessBackPuffy * (width / (defaultDimensions.Width / 100));
+      }
+      else {
+        thicknessA = defaultThicknessBackPuffy * (height / (defaultDimensions.Height / 100));
+      }
+      return thicknessA;
+    }
+
+    _getCushionDimensions(config) {
+      var dimensions = { width: [], height: [], depth: [], thickness: [] };
+
+      var cushionType = config['Pillow Type'];
+      var shape = cushionType === 'Back (Angled)' ? config['Shape (Angled Back)'] : config['Shape'];
+
+      dimensions.width.push('Width (A)');
+
+      if (cushionType !== 'Back (Puffy)') {
+        dimensions.thickness.push('Thickness (A)');
+      }
+
+      if (cushionType === 'Back' || cushionType === 'Back (Angled)' || cushionType === 'Back (Puffy)') {
+        dimensions.height.push('Height');
+      }
+      else {
+        dimensions.depth.push('Depth');
+      }
+
+      if (shape !== 'Rectangle') {
+        dimensions.width.push('Width (B)');
+      }
+
+      if (cushionType === 'Back (Angled)') {
+        dimensions.thickness.push('Thickness (B)');
+      }
+
+      return dimensions;
+    }
+
+    // Get volume of current cushion, calculated as the product of its maximum width, thickness, height/depth dimensions
+    _getFoamVolume(config) {
+      var dimensions = this._getCushionDimensions(config);
+
+      // multiply max of each dimension
+      // ex. max(widths) + max(heights) + max(thicknesses)
+      var volume = Object.keys(dimensions).reduce(function (result, dimensionName) {
+        var dimension = dimensions[dimensionName];
+        if (dimension.length === 0) return result;
+        var maxDim = dimension.reduce(function (min, value) {
+          return Math.max(min, Number(config[value])/100);
+        }, 0);
+        return result * maxDim;
+      }, 1);
+
+      // we use a derived thickness for the back puffy cushion, since it doesn't have a user-specified
+      // thickness
+      if (config['Pillow Type'] === 'Back (Puffy)') volume *= this._getBackPuffyThickness(config);
+
+      return volume;
+    }
+
+    // Get surface area of cushion, approximated as box
+    _getFabricArea(config) {
+      var dimensions = this._getCushionDimensions(config);
+
+      var maxWidth = dimensions.width.reduce(function (min, value) {
+        return Math.max(min, Number(config[value]) / 100);
+      }, 0);
+
+      var maxThickness = config['Pillow Type'] === 'Back (Puffy)' ? this._getBackPuffyThickness(config) :
+      dimensions.thickness.reduce(function (min, value) {
+        return Math.max(min, Number(config[value]) / 100);
+      }, 0);
+
+      var depthDimName = config['Pillow Type'] === 'Bottom' || config['Pillow Type'] === 'Bottom (Puffy)' ?
+      'depth' : 'height';
+      var maxDepth = dimensions[depthDimName].reduce(function (min, value) {
+        return Math.max(min, Number(config[value]) / 100);
+      }, 0);
+
+      return maxWidth * maxThickness * 2 + maxWidth * maxDepth * 2 + maxThickness * maxDepth * 2;
+    }
+
 
     _updatePrice () {
-      var volume = this.currentConfigVolume;
+      var foamVolume = this.currentConfigFoamVolume;
       var config = this.currentConfig;
       var map = this.configMap;
       // volume price based on material
       var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
       var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('price');
-      var result = volume ? volume * unitPrice : 0;
+      var result = foamVolume ? foamVolume * unitPrice : 0;
 
       for (var key in config) {
         if (map.has(key)) {
