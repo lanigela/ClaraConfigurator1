@@ -369,7 +369,7 @@
       * Fixed to dry fill for demo only
       */
       var materialPrice = 'Dry fill';
-      var volumeId = map.get('Volume_Price').get('id');
+      var volumeId = map.get('Foam_Volume_Price').get('id');
       var volumeOptionId = map.get('Foam_Volume_Price').get('options').get(materialPrice).get('id');
       result['bundle_option[' + volumeId + ']'] = volumeOptionId;
       result['bundle_option_qty[' + volumeId + ']'] = this.currentConfigFoamVolume;
