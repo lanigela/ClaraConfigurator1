@@ -172,9 +172,9 @@
 
       // add volume price to claraCon
       var volumePrice = {
-        name: "Volume_Price",
+        name: "Foam_Volume_Price",
         type: 'Options',
-        values: ['Leather_Price', 'Fabric_Price']
+        values: ['sg 25/150', 'sg 35/190', 'hr 37/140', 'hr 43/170', 'hr 50/160','Dry fill','Puffy pillow']
       };
       claraCon.push(volumePrice);
 
@@ -365,9 +365,12 @@
           }
         }
       // update volume price
-      var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
+      /*
+      * Fixed to dry fill for demo only
+      */
+      var materialPrice = 'Dry fill';
       var volumeId = map.get('Volume_Price').get('id');
-      var volumeOptionId = map.get('Volume_Price').get('options').get(materialPrice).get('id');
+      var volumeOptionId = map.get('Foam_Volume_Price').get('options').get(materialPrice).get('id');
       result['bundle_option[' + volumeId + ']'] = volumeOptionId;
       result['bundle_option_qty[' + volumeId + ']'] = this.currentConfigFoamVolume;
 
@@ -480,8 +483,8 @@
       var config = this.currentConfig;
       var map = this.configMap;
       // volume price based on material
-      var materialPrice = config['Cover Material'] === "Leather" ? "Leather_Price" : "Fabric_Price";
-      var unitPrice = map.get('Volume_Price').get('options').get(materialPrice).get('price');
+      var materialPrice = 'Dry fill';
+      var unitPrice = map.get('Foam_Volume_Price').get('options').get(materialPrice).get('price');
       var result = foamVolume ? foamVolume * unitPrice : 0;
 
       for (var key in config) {
