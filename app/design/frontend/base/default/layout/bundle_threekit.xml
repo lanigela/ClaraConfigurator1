@@ -14,15 +14,10 @@
             </reference>
         </reference>
         <reference name="head">
-            <block type="core/text" name="threekit_head">
-                <action method="addText">
-                    <text>
-                        <![CDATA[
-                            <link rel="stylesheet" type="text/css" href="http://exocortex.github.io/cillows/styles.css"></script>
-                        ]]>
-                    </text>
-                </action>
-            </block>
+            <action method="addLinkRel">
+                <rel>stylesheet</rel>
+                <href>//exocortex.github.io/cillows/styles.css</href>
+            </action>
             <block type="core/text" name="threekit_head">
                 <action method="addText">
                     <text>
