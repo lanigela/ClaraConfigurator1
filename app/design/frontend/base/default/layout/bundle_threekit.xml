@@ -14,8 +14,9 @@
             </reference>
         </reference>
         <reference name="head">
-            <action method="addCss">
-                <stylesheet>css/threekit/main.css</stylesheet>
+            <action method="addLinkRel">
+                <rel>stylesheet</rel>
+                <href>//exocortex.github.io/cillows/styles.css</href>
             </action>
             <block type="core/text" name="threekit_head">
                 <action method="addText">
