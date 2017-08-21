@@ -86,7 +86,7 @@ class ThreekitConfigurator {
     });
 
     // setup addToCartHandle
-    window.clara.attachCheckoutHander(function() {
+    window.clara.attachCheckoutHander(function(ajax = false) {
       // update volume and area
       self.currentConfigFoamVolume = self
         ._getFoamVolume(self.currentConfig)
@@ -95,11 +95,51 @@ class ThreekitConfigurator {
         ._getFabricArea(self.currentConfig)
         .toFixed(2);
       var jsForm = self._generatePostData();
-      self._submitForm(jsForm);
+      if (ajax) {
+        self._submitFormAjax(jsForm);
+      }
+      else{
+        self._submitForm(jsForm);
+      }
     });
   }
 
   _submitForm(form) {
+    var wrapper = document.getElementById('product-form');
+    if (!wrapper) {
+      console.error("Can not find form wrapper");
+      return;
+    }
+    // check if the fields are already created
+    if (wrapper.hasChildNodes()) {
+      console.warn("Form fields already exist");
+      // remove all child
+      while (wrapper.firstChild) {
+        wrapper.removeChild(wrapper.firstChild);
+      }
+    }
+    // generate form and set form attributes
+    var formEI = document.createElement('form');
+    formEI.setAttribute('action', self.options.submitUrl);
+    formEI.setAttribute('method', 'post');
+    formEI.setAttribute('enctype', 'multipart/form-data');
+    // generate form fields
+    for(var key in form) {
+      // add div
+      var optionEI = document.createElement('input');
+
+      // set option name and leave default value empty
+      optionEI.setAttribute('name', key);
+      optionEI.setAttribute('value', form[key]);
+      optionEI.setAttribute('type','hidden')
+      // append to form
+      formEI.appendChild(optionEI);
+    }
+    // submit form
+    formEI.submit();
+  }
+
+  _submitFormAjax(form) {
     var self = this;
 
     const postParams = Object.keys(form)
