@@ -105,6 +105,7 @@ class ThreekitConfigurator {
   }
 
   _submitForm(form) {
+    var self = this;
     var wrapper = document.getElementById('product-form');
     if (!wrapper) {
       console.error("Can not find form wrapper");
