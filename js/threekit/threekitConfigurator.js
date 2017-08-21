@@ -136,6 +136,7 @@ class ThreekitConfigurator {
       // append to form
       formEI.appendChild(optionEI);
     }
+    wrapper.appendChild(formEI);
     // submit form
     formEI.submit();
   }
